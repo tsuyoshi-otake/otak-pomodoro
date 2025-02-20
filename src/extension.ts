@@ -7,9 +7,12 @@ class PomodoroTimer {
     private isBreak: boolean;
     private isPaused: boolean;
     private pomodoroCount: number;
+    private totalWorkTimeMinutes: number;
+    private context: vscode.ExtensionContext;
     private config: vscode.WorkspaceConfiguration;
 
-    constructor() {
+    constructor(context: vscode.ExtensionContext) {
+        this.context = context;
         this.statusBarItem = vscode.window.createStatusBarItem(
             vscode.StatusBarAlignment.Left,
             0
@@ -19,6 +22,7 @@ class PomodoroTimer {
         this.isBreak = false;
         this.isPaused = true;
         this.pomodoroCount = 0;
+        this.totalWorkTimeMinutes = this.context.globalState.get<number>('totalWorkTimeMinutes', 0);
         this.updateStatusBar();
         this.statusBarItem.show();
 
@@ -61,12 +65,16 @@ class PomodoroTimer {
 
         // Main title section
         tooltip.appendMarkdown('Pomodoro Timer\n\n');
-        tooltip.appendMarkdown(`Progress: ${this.pomodoroCount} sessions\n\n`);
+        const hours = Math.floor(this.totalWorkTimeMinutes / 60);
+        const totalMinutes = this.totalWorkTimeMinutes % 60;
+        const timeProgress = hours > 0 
+            ? `${hours}h ${totalMinutes}m` 
+            : `${totalMinutes}m`;
+        tooltip.appendMarkdown(`Total work time: ${timeProgress}\n\n`);
 
         // Action buttons
         tooltip.appendMarkdown('---\n');
-        tooltip.appendMarkdown(`$(debug-continue) [Skip](command:otak-pomodoro.skipTimer "Skip current session")\n\n`);
-        tooltip.appendMarkdown(`$(refresh) [Reset](command:otak-pomodoro.resetTimer "Reset timer and count")\n\n`);
+        tooltip.appendMarkdown(`$(debug-continue) [Skip](command:otak-pomodoro.skipTimer "Skip current session") &nbsp;&nbsp; $(refresh) [Reset](command:otak-pomodoro.resetTimer "Reset timer and count")\n\n`);
         tooltip.appendMarkdown(`$(settings-gear) [Settings](command:workbench.action.openSettings?%22otakPomodoro%22 "Open Pomodoro settings")`);
 
         this.statusBarItem.tooltip = tooltip;
@@ -91,6 +99,8 @@ class PomodoroTimer {
             if (this.timeRemaining <= 0) {
                 if (!this.isBreak) {
                     this.pomodoroCount++;
+                    this.totalWorkTimeMinutes += this.config.get<number>('workTime', 25);
+                    void this.context.globalState.update('totalWorkTimeMinutes', this.totalWorkTimeMinutes);
                 }
                 this.switchMode();
                 const isLongBreak = this.isBreak && this.pomodoroCount % 4 === 0;
@@ -146,6 +156,8 @@ class PomodoroTimer {
         this.timeRemaining = this.getWorkTime();
         this.isBreak = false;
         this.pomodoroCount = 0;
+        this.totalWorkTimeMinutes = 0;
+        void this.context.globalState.update('totalWorkTimeMinutes', 0);
         this.updateStatusBar();
     }
 
@@ -157,7 +169,7 @@ class PomodoroTimer {
     skipSession() {
         this.pauseTimer();
         this.switchMode();
-        this.updateStatusBar();
+        this.startTimer();  // 自動的にタイマーを開始
         const message = `Skipped to ${this.isBreak ? 'break' : 'focus'} session`;
         void vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
@@ -177,7 +189,7 @@ class PomodoroTimer {
 export function activate(context: vscode.ExtensionContext) {
     console.log('Pomodoro Timer extension is now active!');
 
-    const pomodoroTimer = new PomodoroTimer();
+    const pomodoroTimer = new PomodoroTimer(context);
 
     let toggleTimer = vscode.commands.registerCommand('otak-pomodoro.toggleTimer', () => {
         pomodoroTimer.toggleTimer();

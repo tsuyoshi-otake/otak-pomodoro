@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.2] - 2025-02-21
+
+### Changed
+- Updated progress tracking to show total work time instead of session count
+- Added hours and minutes display format for accumulated work time
+- Improved tooltip information with clearer time progress representation
+
 ## [0.0.1] - 2025-02-20
 
 ### Added
