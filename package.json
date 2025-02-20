@@ -58,6 +58,10 @@
       {
         "command": "otak-pomodoro.resetTimer",
         "title": "Pomodoro: Reset Timer"
+      },
+      {
+        "command": "otak-pomodoro.skipTimer",
+        "title": "Pomodoro: Skip Current Session"
       }
     ]
   },

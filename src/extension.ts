@@ -45,47 +45,31 @@ class PomodoroTimer {
         return this.config.get<number>('breakTime', 5) * 60;
     }
 
-    private playNotificationSound() {
-        if (this.config.get<boolean>('soundEnabled', true)) {
-            // Play notification sound
-            vscode.window.withProgress({
-                location: vscode.ProgressLocation.Window,
-                title: 'Timer Complete',
-            }, async () => {
-                // Play sound three times with a short delay
-                for (let i = 0; i < 3; i++) {
-                    await vscode.commands.executeCommand('audioCues.playSound', 'notification');
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                }
-            });
-        }
-    }
-
     private updateStatusBar() {
         const minutes = Math.floor(this.timeRemaining / 60);
         const seconds = this.timeRemaining % 60;
         const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         const pomodoroStatus = `#${this.pomodoroCount + 1}`;
-        
+
         const icon = this.isPaused ? '$(play)' : '$(debug-stop)';
-        
+
         this.statusBarItem.text = `${icon} ${this.isBreak ? 'Break' : 'Focus'} ${timeString} ${pomodoroStatus}`;
-        
-        // Markdown formatted tooltip
-        const tooltipLines = [
-            `Pomodoro Timer`,
-            '---',
-            `Work Time: ${this.config.get('workTime')} min`,
-            `Break Time: ${this.config.get('breakTime')} min`,
-            `Long Break: ${this.config.get('longBreakTime')} min`,
-            `Sound Notifications: ${this.config.get('soundEnabled') ? 'Enabled' : 'Disabled'}`,
-            `Completed Pomodoros: ${this.pomodoroCount}`,
-            `---`,
-            `$(gear) [Open Settings](command:workbench.action.openSettings?%22otakPomodoro%22)`
-        ];
-        
-        this.statusBarItem.tooltip = new vscode.MarkdownString(tooltipLines.join('\n'), true);
-        this.statusBarItem.tooltip.isTrusted = true;
+
+        const tooltip = new vscode.MarkdownString();
+        tooltip.isTrusted = true;
+        tooltip.supportThemeIcons = true;
+
+        // Main title section
+        tooltip.appendMarkdown('Pomodoro Timer\n\n');
+        tooltip.appendMarkdown(`Progress: ${this.pomodoroCount} sessions\n\n`);
+
+        // Action buttons
+        tooltip.appendMarkdown('---\n');
+        tooltip.appendMarkdown(`$(debug-continue) [Skip](command:otak-pomodoro.skipTimer "Skip current session")\n\n`);
+        tooltip.appendMarkdown(`$(refresh) [Reset](command:otak-pomodoro.resetTimer "Reset timer and count")\n\n`);
+        tooltip.appendMarkdown(`$(settings-gear) [Settings](command:workbench.action.openSettings?%22otakPomodoro%22 "Open Pomodoro settings")`);
+
+        this.statusBarItem.tooltip = tooltip;
         this.statusBarItem.command = 'otak-pomodoro.toggleTimer';
     }
 
@@ -110,19 +94,42 @@ class PomodoroTimer {
                 }
                 this.switchMode();
                 const isLongBreak = this.isBreak && this.pomodoroCount % 4 === 0;
-                
+
                 // Play notification sound
                 this.playNotificationSound();
-                
-                vscode.window.showInformationMessage(
-                    this.isBreak 
-                        ? `Time for a ${isLongBreak ? 'long break' : 'break'}! (Pomodoro #${this.pomodoroCount} completed)`
-                        : 'Time to focus!'
-                );
+
+                const message = this.isBreak
+                    ? `Time for a ${isLongBreak ? 'long break' : 'break'}! (Pomodoro #${this.pomodoroCount} completed)`
+                    : 'Time to focus!'
+                    ;
+                void vscode.window.withProgress({
+                    location: vscode.ProgressLocation.Notification,
+                    title: message,
+                    cancellable: false
+                }, () => new Promise(resolve => setTimeout(resolve, 8000)));
             }
 
             this.updateStatusBar();
         }, 1000);
+    }
+
+    private playNotificationSound() {
+        if (this.config.get<boolean>('soundEnabled', true)) {
+            vscode.window.withProgress({
+                location: vscode.ProgressLocation.Window,
+                title: 'Timer Complete'
+            }, async () => {
+                for (let i = 0; i < 3; i++) {
+                    try {
+                        // Play notification sound using built-in notification sound
+                        await vscode.commands.executeCommand('editor.action.playAudioCue', 'notification');
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    } catch (error) {
+                        console.error('Failed to play sound:', error);
+                    }
+                }
+            });
+        }
     }
 
     private pauseTimer() {
@@ -147,6 +154,18 @@ class PomodoroTimer {
         this.timeRemaining = this.isBreak ? this.getBreakTime() : this.getWorkTime();
     }
 
+    skipSession() {
+        this.pauseTimer();
+        this.switchMode();
+        this.updateStatusBar();
+        const message = `Skipped to ${this.isBreak ? 'break' : 'focus'} session`;
+        void vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: message,
+            cancellable: false
+        }, () => new Promise(resolve => setTimeout(resolve, 3000)));
+    }
+
     dispose() {
         if (this.timer) {
             clearInterval(this.timer);
@@ -166,12 +185,21 @@ export function activate(context: vscode.ExtensionContext) {
 
     let resetTimer = vscode.commands.registerCommand('otak-pomodoro.resetTimer', () => {
         pomodoroTimer.reset();
-        vscode.window.showInformationMessage('Pomodoro Timer has been reset');
+        void vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+            title: 'Pomodoro Timer has been reset',
+            cancellable: false
+        }, () => new Promise(resolve => setTimeout(resolve, 3000)));
+    });
+
+    let skipTimer = vscode.commands.registerCommand('otak-pomodoro.skipTimer', () => {
+        pomodoroTimer.skipSession();
     });
 
     context.subscriptions.push(toggleTimer);
     context.subscriptions.push(resetTimer);
     context.subscriptions.push(pomodoroTimer);
+    context.subscriptions.push(skipTimer);
 }
 
-export function deactivate() {}
+export function deactivate() { }
