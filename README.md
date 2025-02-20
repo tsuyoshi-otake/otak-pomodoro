@@ -1,71 +1,106 @@
-# otak-pomodoro README
-
-This is the README for your extension "otak-pomodoro". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+<p align="center">
+  <h1 align="center">otak-pomodoro</h1>
+  <p align="center">A minimalist Pomodoro Timer for VS Code - Enhance your productivity with customizable work/break cycles, status bar integration, and sound notifications.</p>
+</p>
 
 ---
 
-## Following extension guidelines
+## Usage
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+![Status Bar Timer](images/status-bar-timer.png)
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+1. Find the timer in your VS Code status bar
+2. Click to start your Pomodoro session
+3. Get notified when it's time to switch modes
+4. Track your progress with session counter
 
-## Working with Markdown
+## Features
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+otak-pomodoro is a streamlined VS Code extension that helps you maintain focus and manage your work/break cycles effectively.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### Key Features
 
-## For more information
+- **Timer Modes**:
+  - Focus Time (25 minutes)
+  - Short Break (5 minutes)
+  - Long Break (15 minutes, every 4 sessions)
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- **Visual Integration**:
+  - Status bar display with timer
+  - Play/Stop controls
+  - Session progress tracking
+  - Markdown-formatted tooltips
 
-**Enjoy!**
+- **Notification System**:
+  - Visual alerts
+  - Configurable sound notifications
+  - Session completion messages
+
+- **Customization Options**:
+  - Adjustable session durations
+  - Sound notification toggle
+  - Real-time configuration updates
+
+## Requirements
+
+- Visual Studio Code ^1.97.0
+
+## Installation
+
+1. Install the extension from VS Code Marketplace
+2. Look for the timer in your status bar
+3. Click to start your first session
+4. Configure settings via tooltip or command palette
+
+## Extension Settings
+
+![Settings](images/settings-otakPomodoro.png)
+
+This extension contributes the following settings:
+
+- `otakPomodoro.workTime`: Duration of focus sessions (default: 25 minutes)
+- `otakPomodoro.breakTime`: Duration of break sessions (default: 5 minutes)
+- `otakPomodoro.longBreakTime`: Duration of long breaks (default: 15 minutes)
+- `otakPomodoro.soundEnabled`: Enable/disable sound notifications (default: true)
+
+## Commands
+
+- `otak-pomodoro.toggleTimer`: Start/Stop the Pomodoro timer
+- `otak-pomodoro.resetTimer`: Reset the current session and counter
+
+## Status Bar Display
+
+The extension shows the following information in your status bar:
+
+```
+$(play) Focus 25:00 #1      // When paused, focus mode
+$(debug-stop) Break 05:00 #2  // When running, break mode
+```
+
+With a detailed tooltip:
+```markdown
+# Pomodoro Timer
+
+$(play) Click to Start/Stop
+
+## Current Settings
+- Work Time: 25 min
+- Break Time: 5 min
+- Long Break: 15 min
+
+$(gear) Open Settings
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+For more information, visit the [GitHub repository](https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro).
+
+Part of the [otak-series](https://marketplace.visualstudio.com/search?term=otak&target=VSCode) VS Code extensions.
