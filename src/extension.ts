@@ -22,7 +22,7 @@ class PomodoroTimer {
         this.isBreak = false;
         this.isPaused = true;
         this.pomodoroCount = 0;
-        this.totalWorkTimeMinutes = this.context.globalState.get<number>('totalWorkTimeMinutes', 0);
+        this.totalWorkTimeMinutes = 0;
         this.updateStatusBar();
         this.statusBarItem.show();
 
@@ -99,8 +99,9 @@ class PomodoroTimer {
             if (this.timeRemaining <= 0) {
                 if (!this.isBreak) {
                     this.pomodoroCount++;
-                    this.totalWorkTimeMinutes += this.config.get<number>('workTime', 25);
-                    void this.context.globalState.update('totalWorkTimeMinutes', this.totalWorkTimeMinutes);
+                    // 実際の経過時間を加算
+                    const workTime = Math.ceil((this.getWorkTime() - this.timeRemaining) / 60);
+                    this.totalWorkTimeMinutes += workTime;
                 }
                 this.switchMode();
                 const isLongBreak = this.isBreak && this.pomodoroCount % 4 === 0;
@@ -156,8 +157,6 @@ class PomodoroTimer {
         this.timeRemaining = this.getWorkTime();
         this.isBreak = false;
         this.pomodoroCount = 0;
-        this.totalWorkTimeMinutes = 0;
-        void this.context.globalState.update('totalWorkTimeMinutes', 0);
         this.updateStatusBar();
     }
 

@@ -12,7 +12,7 @@
 1. Find the timer in your VS Code status bar
 2. Click to start your Pomodoro session
 3. Get notified when it's time to switch modes
-4. Track your progress with session counter
+4. Track your progress with session counter and total work time
 
 ## Features
 
@@ -26,15 +26,23 @@ otak-pomodoro is a streamlined VS Code extension that helps you maintain focus a
   - Long Break (15 minutes, every 4 sessions)
 
 - **Visual Integration**:
-  - Status bar display with timer
+  - Status bar display with timer and session count
   - Play/Stop controls
   - Session progress tracking
-  - Markdown-formatted tooltips
+  - Total work time tracking
+  - Rich tooltips with quick actions
+
+- **Timer Controls**:
+  - Start/Stop timer
+  - Skip current session
+  - Reset timer and progress
+  - Quick access to settings
 
 - **Notification System**:
-  - Visual alerts
-  - Configurable sound notifications
+  - Visual progress notifications
+  - Three beep sound notifications (using VSCode's native audioCues)
   - Session completion messages
+  - Mode transition alerts
 
 - **Customization Options**:
   - Adjustable session durations
@@ -66,6 +74,7 @@ This extension contributes the following settings:
 ## Commands
 
 - `otak-pomodoro.toggleTimer`: Start/Stop the Pomodoro timer
+- `otak-pomodoro.skipTimer`: Skip to next session (Focus/Break)
 - `otak-pomodoro.resetTimer`: Reset the current session and counter
 
 ## Status Bar Display
@@ -77,19 +86,39 @@ $(play) Focus 25:00 #1      // When paused, focus mode
 $(debug-stop) Break 05:00 #2  // When running, break mode
 ```
 
-With a detailed tooltip:
+With a detailed tooltip showing:
 ```markdown
-# Pomodoro Timer
+Pomodoro Timer
 
-$(play) Click to Start/Stop
+Total work time: 2h 30m
 
-## Current Settings
-- Work Time: 25 min
-- Break Time: 5 min
-- Long Break: 15 min
+---
+$(debug-continue) Skip    $(refresh) Reset
 
-$(gear) Open Settings
+$(settings-gear) Settings
 ```
+
+The tooltip provides quick access to:
+- Skip current session
+- Reset timer and progress
+- Open extension settings
+
+## Notifications
+
+The extension provides several types of notifications:
+
+1. **Timer Completion**:
+   - Visual notification showing mode change
+   - Three beep sounds (when enabled)
+   - Displays for 8 seconds
+
+2. **Session Skip**:
+   - Visual confirmation of mode change
+   - Displays for 3 seconds
+
+3. **Timer Reset**:
+   - Visual confirmation
+   - Displays for 3 seconds
 
 ## Contributing
 
