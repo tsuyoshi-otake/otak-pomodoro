@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.0] - 2025-02-21
+
+### Fixed
+- Total work time tracking now correctly accumulates actual work time
+- Fixed work time calculation to use real session duration
+- Removed global state dependency for better workspace isolation
+
 ## [0.0.2] - 2025-02-21
 
 ### Changed
