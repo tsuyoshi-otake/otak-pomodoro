@@ -1,0 +1,60 @@
+# Pomodoro Timer Extension Development Rules
+
+## Status Bar Display
+- Located at the bottom-left of VSCode
+- Shows play/stop icon based on timer state
+- Displays "Focus" or "Break" status
+- Shows current time remaining in MM:SS format
+- Indicates current pomodoro count (#1, #2, etc.)
+
+## Icons
+- Play icon ($(play)) when timer is paused
+- Stop icon ($(debug-stop)) when timer is running
+- Gear icon ($(gear)) for settings link in tooltip
+
+## Timer States
+- Focus Time (default: 25 minutes)
+- Break Time (default: 5 minutes)
+- Long Break (default: 15 minutes, after every 4 pomodoros)
+
+## Configuration (otakPomodoro)
+- workTime: Duration of focus sessions
+- breakTime: Duration of break sessions
+- longBreakTime: Duration of long breaks
+- soundEnabled: Toggle sound notifications
+
+## User Interface
+- Markdown-formatted tooltip showing:
+  * Current timer state
+  * All settings and their values
+  * Quick access to settings
+  * Pomodoro count
+- Click status bar to toggle timer
+- Use command palette for timer control
+
+## Notifications
+- Visual notifications for:
+  * Timer completion
+  * Mode changes (Focus/Break)
+  * Session completion
+- Sound notifications:
+  * Three beeps when timer completes
+  * Configurable via settings
+  * Uses VSCode's native audioCues
+
+## State Management
+- Tracks number of completed pomodoros
+- Automatically switches between Focus and Break
+- Persists settings through VSCode configuration
+- Handles configuration changes in real-time
+
+## Commands
+- otak-pomodoro.toggleTimer: Start/Stop timer
+- otak-pomodoro.resetTimer: Reset timer and count
+
+## Best Practices
+- Clear visual indicators for timer state
+- Consistent terminology (Focus/Break)
+- Non-intrusive notifications
+- Customizable settings
+- Professional English UI

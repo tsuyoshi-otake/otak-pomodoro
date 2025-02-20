@@ -1,0 +1,83 @@
+{
+  "name": "otak-pomodoro",
+  "displayName": "otak-pomodoro",
+  "description": "Introducing the Pomodoro Timer for VSCode—an essential extension designed to enhance your productivity using the Pomodoro Technique.",
+  "publisher": "odangoo",
+  "license": "MIT",
+  "icon": "./images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro"
+  },
+  "bugs": {
+    "url": "https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro/issues"
+  },
+  "homepage": "https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro#readme",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Productivity"
+  ],
+  "activationEvents": [
+    "workspaceContains:*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Pomodoro Timer",
+      "properties": {
+        "otakPomodoro.workTime": {
+          "type": "number",
+          "default": 25,
+          "description": "Work session duration (minutes)"
+        },
+        "otakPomodoro.breakTime": {
+          "type": "number",
+          "default": 5,
+          "description": "Break duration (minutes)"
+        },
+        "otakPomodoro.longBreakTime": {
+          "type": "number",
+          "default": 15,
+          "description": "Long break duration (minutes) - after 4 pomodoros"
+        },
+        "otakPomodoro.soundEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable sound notifications when timer completes"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "otak-pomodoro.toggleTimer",
+        "title": "Pomodoro: Toggle Timer"
+      },
+      {
+        "command": "otak-pomodoro.resetTimer",
+        "title": "Pomodoro: Reset Timer"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
