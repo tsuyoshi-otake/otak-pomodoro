@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.0] - 2025-02-21
+
+### Changed
+- Removed total work time tracking feature for simpler UI
+- Simplified tooltip display by removing accumulated work time
+
 ## [1.0.0] - 2025-02-21
 
 ### Fixed

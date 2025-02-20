@@ -7,7 +7,6 @@ class PomodoroTimer {
     private isBreak: boolean;
     private isPaused: boolean;
     private pomodoroCount: number;
-    private totalWorkTimeMinutes: number;
     private context: vscode.ExtensionContext;
     private config: vscode.WorkspaceConfiguration;
 
@@ -22,7 +21,6 @@ class PomodoroTimer {
         this.isBreak = false;
         this.isPaused = true;
         this.pomodoroCount = 0;
-        this.totalWorkTimeMinutes = 0;
         this.updateStatusBar();
         this.statusBarItem.show();
 
@@ -65,12 +63,6 @@ class PomodoroTimer {
 
         // Main title section
         tooltip.appendMarkdown('Pomodoro Timer\n\n');
-        const hours = Math.floor(this.totalWorkTimeMinutes / 60);
-        const totalMinutes = this.totalWorkTimeMinutes % 60;
-        const timeProgress = hours > 0 
-            ? `${hours}h ${totalMinutes}m` 
-            : `${totalMinutes}m`;
-        tooltip.appendMarkdown(`Total work time: ${timeProgress}\n\n`);
 
         // Action buttons
         tooltip.appendMarkdown('---\n');
@@ -99,9 +91,6 @@ class PomodoroTimer {
             if (this.timeRemaining <= 0) {
                 if (!this.isBreak) {
                     this.pomodoroCount++;
-                    // 実際の経過時間を加算
-                    const workTime = Math.ceil((this.getWorkTime() - this.timeRemaining) / 60);
-                    this.totalWorkTimeMinutes += workTime;
                 }
                 this.switchMode();
                 const isLongBreak = this.isBreak && this.pomodoroCount % 4 === 0;

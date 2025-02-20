@@ -12,7 +12,7 @@
 1. Find the timer in your VS Code status bar
 2. Click to start your Pomodoro session
 3. Get notified when it's time to switch modes
-4. Track your progress with session counter and total work time
+4. Track your progress with session counter
 
 ## Features
 
@@ -29,7 +29,6 @@ otak-pomodoro is a streamlined VS Code extension that helps you maintain focus a
   - Status bar display with timer and session count
   - Play/Stop controls
   - Session progress tracking
-  - Total work time tracking
   - Rich tooltips with quick actions
 
 - **Timer Controls**:
@@ -89,8 +88,6 @@ $(debug-stop) Break 05:00 #2  // When running, break mode
 With a detailed tooltip showing:
 ```markdown
 Pomodoro Timer
-
-Total work time: 2h 30m
 
 ---
 $(debug-continue) Skip    $(refresh) Reset
