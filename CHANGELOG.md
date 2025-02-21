@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.0] - 2025-02-22
+
+### Added
+- Enhanced visual notifications with status bar background color flash effect
+- Color utility functions for dynamic visual feedback
+- Improved timer completion notifications with combined visual and audio feedback
+
 ## [1.1.0] - 2025-02-21
 
 ### Changed

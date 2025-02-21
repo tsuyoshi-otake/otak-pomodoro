@@ -107,6 +107,7 @@ The extension provides several types of notifications:
 1. **Timer Completion**:
    - Visual notification showing mode change
    - Three beep sounds (when enabled)
+   - Status bar background color flash effect
    - Displays for 8 seconds
 
 2. **Session Skip**:
