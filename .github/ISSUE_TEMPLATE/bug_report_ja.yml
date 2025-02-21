@@ -1,0 +1,98 @@
+name: バグ報告
+description: 改善のためのバグ報告を作成
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 重要：Issue作成前の確認事項
+        以下の手順で類似のIssueが存在しないか確認してください：
+        1. [既存のIssue](https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro/issues)を検索
+        2. 「Open」と「Closed」の両方のIssueを確認
+        3. 関連するキーワード（例：「タイマー」「通知」「サウンド」）で検索
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: 前提条件
+      options:
+        - label: 既存のIssueを確認し、類似の報告が存在しないことを確認しました
+          required: true
+        - label: 最新バージョンの拡張機能を使用しています
+          required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: オペレーティングシステム
+      description: OSとそのバージョンを指定してください
+      placeholder: "例：Windows 11 Pro 22H2"
+    validations:
+      required: true
+
+  - type: input
+    id: vscode-version
+    attributes:
+      label: Visual Studio Codeバージョン
+      description: 使用しているVSCodeのバージョンを指定してください
+      placeholder: "例：1.85.1"
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: Otak Pomodoro拡張機能バージョン
+      description: 拡張機能のバージョンを指定してください
+      placeholder: "例：1.2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 問題の説明
+      description: 問題について明確で詳細な説明を提供してください
+      placeholder: "例：タイマーの通知が正しく動作していません"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 再現手順
+      description: 問題を再現するための手順を提供してください
+      placeholder: |
+        1. VSCodeを開く
+        2. Pomodoroセッションを開始
+        3. タイマー終了まで待機
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待される動作
+      description: どのような動作が期待されますか？
+      placeholder: "例：タイマー終了時に音声と視覚的な通知が表示されるはず"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: 実際にはどのような動作になっていますか？
+      placeholder: "例：タイマー終了時に通知が表示されない"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: エラーログ
+      description: 該当する場合、VSCode開発者ツールのコンソールログを添付してください
+      render: shell
+    validations:
+      required: false

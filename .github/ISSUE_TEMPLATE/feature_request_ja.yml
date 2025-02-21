@@ -1,0 +1,75 @@
+name: 機能リクエスト
+description: このプロジェクトへのアイデアを提案
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 重要：Issue作成前の確認事項
+        以下の手順で類似の機能リクエストが存在しないか確認してください：
+        1. [既存のIssue](https://github.com/tsuyoshi-otake-system-exe-jp/otak-pomodoro/issues)を検索
+        2. 「Open」と「Closed」の両方のIssueを確認
+        3. 関連するキーワードで検索
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: 前提条件
+      options:
+        - label: 既存のIssueを確認し、類似のリクエストが存在しないことを確認しました
+          required: true
+        - label: 最新の拡張機能の機能を確認しました
+          required: true
+
+  - type: input
+    id: vscode-version
+    attributes:
+      label: Visual Studio Codeバージョン
+      description: 使用しているVSCodeのバージョンを指定してください
+      placeholder: "例：1.85.1"
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: Otak Pomodoro拡張機能バージョン
+      description: 拡張機能のバージョンを指定してください
+      placeholder: "例：1.2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 関連する問題
+      description: この機能リクエストに関連する問題や不便な点を説明してください
+      placeholder: "例：現在、通知音をカスタマイズする方法がありません"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: 提案する機能について詳しく説明してください
+      placeholder: "例：タイマー通知用のカスタム音声ファイルを選択できる機能の追加"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案
+      description: 検討した他の解決策があれば説明してください
+      placeholder: "例：システムの通知音を使用することも検討しましたが..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 追加のコンテキスト
+      description: 機能リクエストに関する他のコンテキストや参考情報を追加してください
+    validations:
+      required: false
